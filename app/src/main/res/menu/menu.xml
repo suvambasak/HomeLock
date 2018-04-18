@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/changeId"
+        android:title="Change Android ID" />
+    <item
+        android:id="@+id/changePin"
+        android:title="Change Security PIN"/>
+    <item
+        android:id="@+id/change_ip"
+        android:title="Change IP" />
+    <item
+        android:id="@+id/newMember"
+        android:title="New Member" />
+    <item
+        android:id="@+id/memberList"
+        android:title="Members"/>
+    <item
+        android:id="@+id/logout"
+        android:title="Logout" />
+    <item
+        android:id="@+id/about"
+        android:title="About" />
+    <!--<item-->
+    <!--android:id="@+id/test"-->
+    <!--android:title="Test" />-->
+</menu>
