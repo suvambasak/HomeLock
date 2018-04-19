@@ -227,6 +227,7 @@ public class UpdateService extends Service {
     private void checkOnline(){
         // Getting username and android ID hash.
         final String username = UserData.getInstance(this).getUsername();
+        final String email = UserData.getInstance(this).getEmail();
         final String androidIDHash = Hash.md5(Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
 
         StringRequest stringRequest = new StringRequest(
@@ -265,6 +266,7 @@ public class UpdateService extends Service {
                 // sending the username and Andorid ID.
                 params.put("username",username);
                 params.put("androidId",androidIDHash);
+                params.put("email",email);
                 return params;
             }
         };
