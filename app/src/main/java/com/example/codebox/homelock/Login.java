@@ -114,7 +114,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 finish();
                             }else{
                                 //wrong username password.
-//                                Snackbar.make(v, jo.getString("message"), Snackbar.LENGTH_LONG).show();
                                 Toast.makeText(Login.this, jo.getString("message"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {

@@ -1,6 +1,7 @@
 package com.example.codebox.homelock;
 
 import android.app.ProgressDialog;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class MemberList extends AppCompatActivity implements AdapterView.OnItemL
 
     private ProgressDialog progress;
     private String memberEmail,memberName;
+    private String editandroidId;
     ArrayList<Member> members;
 
     @Override
@@ -45,6 +47,8 @@ public class MemberList extends AppCompatActivity implements AdapterView.OnItemL
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        editandroidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         progress = new ProgressDialog(this);
 
         members = new ArrayList<Member>();
@@ -79,7 +83,8 @@ public class MemberList extends AppCompatActivity implements AdapterView.OnItemL
 
                                 members.add(new Member(
                                         tuple.getString("name"),
-                                        tuple.getString("email")
+                                        tuple.getString("email"),
+                                        tuple.getString("enable")
                                         )
                                 );
                             }
@@ -145,19 +150,23 @@ public class MemberList extends AppCompatActivity implements AdapterView.OnItemL
     public boolean onMenuItemClick(MenuItem item) {
         switch(item.getItemId()){
             case R.id.remove:
-                removeMember();
+                removeMember("remove");
+                return true;
+            case R.id.add:
+                removeMember("add");
                 return true;
             default:
                 return false;
         }
     }
 
-    private void removeMember(){
+    private void removeMember(final String operation){
         progress.setTitle("Fetching members");
         progress.setMessage("Wait while fetching...");
         progress.show();
 
         final String username = UserData.getInstance(getApplicationContext()).getUsername();
+        final String androidId = Hash.md5(editandroidId);
         final String email = memberEmail;
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -172,6 +181,8 @@ public class MemberList extends AppCompatActivity implements AdapterView.OnItemL
                                 Toast.makeText(getApplicationContext(), memberName+" "+jo.getString("message"), Toast.LENGTH_SHORT).show();
                                 members.clear();
                                 getMemberList();
+                            }else{
+                                Toast.makeText(MemberList.this, jo.getString("message"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -181,8 +192,7 @@ public class MemberList extends AppCompatActivity implements AdapterView.OnItemL
             @Override
             public void onErrorResponse(VolleyError error) {
                 progress.hide();
-                //Snackbar.make(v, error.getMessage(), Snackbar.LENGTH_LONG).show();
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -190,6 +200,8 @@ public class MemberList extends AppCompatActivity implements AdapterView.OnItemL
                 Map<String,String> params = new HashMap<>();
                 params.put("username",username);
                 params.put("email",email);
+                params.put("operation",operation);
+                params.put("androidId",androidId);
                 return params;
             }
         };

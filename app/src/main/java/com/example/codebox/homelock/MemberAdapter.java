@@ -42,6 +42,9 @@ public class MemberAdapter extends ArrayAdapter<Member> {
         TextView numberTextView = (TextView) listItemView.findViewById(R.id.email);
         numberTextView.setText(currentMember.getemail());
 
+        TextView permissionTextView = (TextView) listItemView.findViewById(R.id.permission);
+        permissionTextView.setText(currentMember.getPermission());
+
         return listItemView;
     }
 

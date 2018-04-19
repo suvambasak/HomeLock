@@ -15,13 +15,27 @@
         android:orientation="vertical"
         android:paddingLeft="16dp">
 
-        <TextView
-            android:id="@+id/name"
-            android:textColor="#000"
-            android:textSize="17sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/name"
+                android:textColor="#000"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/permission"
+                android:layout_marginLeft="10dp"
+                android:textStyle="normal|italic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
         <TextView
             android:id="@+id/email"
             android:layout_width="wrap_content"

@@ -120,7 +120,7 @@ public class IPChange extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onErrorResponse(VolleyError error) {
                 progress.hide();
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
         }){
             @Override

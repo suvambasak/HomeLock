@@ -207,8 +207,12 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                                 status.setText(updateService.getDeviceStatus());
                                 if (updateService.getDeviceStatus().equals("Online"))
                                     dot.setBackgroundResource(R.drawable.online_dot);
+                                else
                                 if (updateService.getDeviceStatus().equals("Offline"))
                                     dot.setBackgroundResource(R.drawable.offline_dot);
+                                else
+                                if (updateService.getDeviceStatus().equals("Access Deny"))
+                                    dot.setBackgroundResource(R.drawable.access_deny_dot);
                                 try{
                                     if (updateService.getImageFile() != null) {
                                         imageView.setPadding(0,0,0,0);
@@ -471,6 +475,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
                                 UserData.getInstance(getApplicationContext()).deleteOwnerStatus();
                                 finish();
                                 startActivity(new Intent(getApplicationContext(), Login.class));
+                            }else{
+                                Toast.makeText(Home.this, jo.getString("message").toString(), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -481,6 +487,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progress.dismiss();
+                Toast.makeText(Home.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
         }
         ){

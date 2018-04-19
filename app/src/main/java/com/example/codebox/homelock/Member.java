@@ -7,10 +7,12 @@ package com.example.codebox.homelock;
 public class Member {
     private String name;
     private String email;
+    private String permission;
 
-    public Member(String name, String email){
+    public Member(String name, String email,String permission){
         this.name = name;
         this.email = email;
+        this.permission = permission;
     }
 
     public String getName(){
@@ -18,5 +20,8 @@ public class Member {
     }
     public String getemail(){
         return email;
+    }
+    public String getPermission(){
+        return permission;
     }
 }
