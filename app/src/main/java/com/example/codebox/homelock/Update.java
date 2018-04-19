@@ -59,17 +59,13 @@ public class Update extends AppCompatActivity implements View.OnClickListener {
     }
 
     //updateId method.
-    private void updateId(final View v){
-
+    private void updateId(){
         //showing progress.
         progress.show();
-
         //getting password hash android id hash username.
         final String password = Hash.md5(editpassword.getText().toString());
         final String updatedAndroidId = Hash.md5(androidId);
-        final String username = UserData.getInstance(this).getUsername();
         final String email = UserData.getInstance(getApplicationContext()).getEmail();
-        final String token = UserData.getInstance(getApplicationContext()).getToken();
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -85,31 +81,24 @@ public class Update extends AppCompatActivity implements View.OnClickListener {
 
                             finish();
                             startActivity(new Intent(getApplicationContext(),Home.class));
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progress.dismiss();
-                Snackbar.make(v, error.getMessage(), Snackbar.LENGTH_LONG).show();
-//                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
         }
         ){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String,String> params = new HashMap<>();
-                params.put("username",username);
                 params.put("password", password);
                 params.put("androidId", updatedAndroidId);
                 params.put("email",email);
-                params.put("token",token);
-
                 return params;
             }
         };
@@ -121,7 +110,7 @@ public class Update extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (v == apply)
-            updateId(v);
+            updateId();
     }
 
     //ActionBar back button.
