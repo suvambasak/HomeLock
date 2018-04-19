@@ -16,6 +16,7 @@ public class DomainName {
 
     public static final String SIGNUP = ROOT_URL + "signup.php";
     public static final String SIGNIN = ROOT_URL + "signin.php";
+    public static final String UPDATE_TOKEN = ROOT_URL + "updateToken.php";
     public static final String LOGOUT = ROOT_URL + "logout.php";
     public static final String ANDROIDIDUPDATE = ROOT_URL + "androidIdUpdate.php";
     public static final String GIVE_ACCESS = ROOT_URL + "addNewMember.php";

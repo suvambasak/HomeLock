@@ -78,7 +78,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
     }
 
     //register method to insert into database
-    private void register(final View v){
+    private void register(){
 
         //show progress.
         progress.setMessage("Please wait...");
@@ -128,8 +128,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progress.hide();
-                Snackbar.make(v, error.getMessage(), Snackbar.LENGTH_LONG).show();
-                //Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), error.getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -157,7 +156,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         if (v == signUp){
 
             //calling register method.
-            register(v);
+            register();
             if (sucess){
                 finish();
                 startActivity(new Intent(this,Login.class));
