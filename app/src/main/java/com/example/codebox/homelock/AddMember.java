@@ -47,6 +47,7 @@ public class AddMember extends AppCompatActivity {
 
     private void getKey() {
         final String username = UserData.getInstance(getApplicationContext()).getUsername();
+        final String email = UserData.getInstance(getApplicationContext()).getEmail();
         final String androidId = Hash.md5(Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
 
         StringRequest stringRequest = new StringRequest(
@@ -66,7 +67,6 @@ public class AddMember extends AppCompatActivity {
                                 setQrCode();
                             }else{
                                 //wrong username password.
-//                                Snackbar.make(v, jo.getString("message"), Snackbar.LENGTH_LONG).show();
                                 Toast.makeText(AddMember.this, jo.getString("message"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
@@ -78,6 +78,7 @@ public class AddMember extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 loadingstatus.setText("Retry!!");
+                Toast.makeText(AddMember.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
         }
         ){
@@ -86,6 +87,7 @@ public class AddMember extends AppCompatActivity {
                 HashMap<String,String> params = new HashMap<>();
                 params.put("username",username);
                 params.put("androidId",androidId);
+                params.put("email",email);
                 return params;
             }
         };

@@ -31,7 +31,14 @@ import java.util.Map;
 
 public class GetAccess extends AppCompatActivity implements View.OnClickListener {
     private Button go;
-    private EditText editUsername,editName,editAddress,editEmail,editphone;
+    private EditText editUsername,
+            editName,
+            editAddress,
+            editEmail,
+            editphone,
+            editpassword,
+            editconfirmPassword;
+    private TextView passwordNotMatch;
     private String key;
     private ProgressDialog progress;
 
@@ -53,6 +60,9 @@ public class GetAccess extends AppCompatActivity implements View.OnClickListener
         editAddress = (EditText) findViewById(R.id.address);
         editEmail = (EditText) findViewById(R.id.email);
         editphone = (EditText) findViewById(R.id.phone);
+        editpassword = (EditText) findViewById(R.id.password);
+        editconfirmPassword = (EditText) findViewById(R.id.confirmPassword);
+        passwordNotMatch = (TextView) findViewById(R.id.passwordNotMatch);
 
         progress = new ProgressDialog(this);
         progress.setMessage("Please wait...");
@@ -73,15 +83,26 @@ public class GetAccess extends AppCompatActivity implements View.OnClickListener
         switch(view.getId()){
             case R.id.submit:
                 Log.i("Calling","verify");
-                verify(view);
+                verify();
                 break;
         }
     }
 
-    private void verify(final View v){
+    private void verify(){
         //showing the progress.
         progress.show();
         Log.i("Inside","Verifiy method");
+
+
+        //confirm password
+        if(!editpassword.getText().toString().equals(editconfirmPassword.getText().toString())){
+            editpassword.setText("");
+            editconfirmPassword.setText("");
+            progress.dismiss();
+//            sucess = false;
+            passwordNotMatch.setText("Password is Not Matching !");
+            return;
+        }
 
         //getting username and password.
         final String username = editUsername.getText().toString().trim();
@@ -92,11 +113,9 @@ public class GetAccess extends AppCompatActivity implements View.OnClickListener
         final String code = key;
         //getting android ID Hash.
         final String androidId = Hash.md5(Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID));
-        //getting token.
-        final String token = UserData.getInstance(getApplication()).getToken();
+        final String password = Hash.md5(editpassword.getText().toString());
 
         Log.d("username",username);
-        Log.d("TOKEN",token);
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
@@ -119,12 +138,18 @@ public class GetAccess extends AppCompatActivity implements View.OnClickListener
                                                 name
                                         );
                                 UserData.getInstance(getApplicationContext()).saveOwnerStatus("MEMBER");
+
+                                String token = UserData.getInstance(getApplication()).getToken();
+                                Log.d("TOKEN",token);
+                                updateToken(email, token);
+
+                                progress.dismiss();
+
                                 startActivity(new Intent(getApplicationContext(),PinSetup.class));
                                 finish();
                             }else{
                                 //wrong username password.
-                                Snackbar.make(v, jo.getString("message"), Snackbar.LENGTH_LONG).show();
-                                //Toast.makeText(Login.this, jo.getString("message"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(GetAccess.this, jo.getString("message"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -134,6 +159,7 @@ public class GetAccess extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onErrorResponse(VolleyError error) {
                 progress.dismiss();
+                Toast.makeText(GetAccess.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
             }
         }
         ){
@@ -147,11 +173,51 @@ public class GetAccess extends AppCompatActivity implements View.OnClickListener
                 params.put("email",email);
                 params.put("phone",phone);
                 params.put("androidId",androidId);
-                params.put("token",token);
+                params.put("password",password);
 
                 return params;
             }
         };
+        RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
+    }
+
+    private void updateToken(final String email, final String token) {
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.POST,
+                DomainName.UPDATE_TOKEN,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //converting response into JSON object.
+                        try {
+                            JSONObject jo = new JSONObject(response);
+
+                            if (!jo.getBoolean("error")){
+                                Toast.makeText(GetAccess.this, "Token Updated", Toast.LENGTH_SHORT).show();
+                            }else{
+                                //wrong username password.
+                                Toast.makeText(GetAccess.this, jo.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(GetAccess.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            }
+        }
+        ){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String,String> params = new HashMap<>();
+                params.put("email",email);
+                params.put("token", token);
+                return params;
+            }
+        };
+
         RequestHandler.getInstance(this).addToRequestQueue(stringRequest);
     }
 
@@ -174,6 +240,7 @@ public class GetAccess extends AppCompatActivity implements View.OnClickListener
         if(result != null){
             if(result.getContents()==null){
                 Toast.makeText(this, "You cancelled the scanning", Toast.LENGTH_LONG).show();
+                finish();
             }
             else {
                 String code = result.getContents();

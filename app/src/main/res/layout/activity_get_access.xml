@@ -125,6 +125,58 @@
             android:paddingRight="10dp"
             android:textSize="17sp" />
 
+
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/password"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create a Password"
+            android:padding="15dp"
+            android:textSize="17sp"
+            android:textColor="#000"/>
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="17sp"
+            android:hint="Password"/>
+
+        <EditText
+            android:id="@+id/confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="17sp"
+            android:hint="Confirm Password"/>
+
+        <TextView
+            android:id="@+id/passwordNotMatch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="#f20000"/>
+
+
+
+
+
+
+
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
