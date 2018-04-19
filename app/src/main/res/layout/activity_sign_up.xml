@@ -140,32 +140,6 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/macaddress"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="20dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MAC Address of Lock Device"
-                android:padding="15dp"
-                android:textSize="17sp"
-                android:textColor="#000"/>
-
-            <EditText
-                android:id="@+id/lockMac"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:inputType="text"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textSize="17sp"
-                android:hint="MAC"/>
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
                 android:src="@drawable/password"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"/>

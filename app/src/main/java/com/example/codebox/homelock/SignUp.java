@@ -27,7 +27,14 @@ import java.util.Map;
 
 public class SignUp extends AppCompatActivity implements View.OnClickListener {
     //all variables.
-    private EditText editname, editemail, editaddress, editphone, editusername, editlockMac, editpassword, editconfirmPassword;
+    private EditText editname,
+            editemail,
+            editaddress,
+            editphone,
+            editusername,
+            editpassword,
+            editconfirmPassword;
+
     private Button signUp;
     private String editandroidId;
     private boolean sucess = true;
@@ -56,7 +63,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
         editaddress = (EditText) findViewById(R.id.address);
         editphone = (EditText) findViewById(R.id.phone);
         editusername = (EditText) findViewById(R.id.username);
-        editlockMac = (EditText) findViewById(R.id.lockMac);
         editpassword = (EditText) findViewById(R.id.password);
         editconfirmPassword = (EditText) findViewById(R.id.confirmPassword);
 
@@ -99,7 +105,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
         //getting hash of password  Lock MAC and android ID.
         final String password = Hash.md5(editpassword.getText().toString());
-        final String lockMac = Hash.md5(editlockMac.getText().toString().trim());
         final String androidId = Hash.md5(editandroidId);
 
         //making request.
@@ -112,8 +117,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
 
                         try {
                             JSONObject jo = new JSONObject(response);
-                            Snackbar.make(v, jo.getString("message"), Snackbar.LENGTH_LONG).show();
-                           // Toast.makeText(getApplicationContext(), jo.getString("message"), Toast.LENGTH_SHORT).show();
+//                            Snackbar.make(v, jo.getString("message"), Snackbar.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), jo.getString("message"), Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -138,7 +143,6 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener {
                 params.put("email",email);
                 params.put("phone",phone);
                 params.put("androidId",androidId);
-                params.put("lockMac",lockMac);
 
                 return params;
             }

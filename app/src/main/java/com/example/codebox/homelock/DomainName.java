@@ -12,7 +12,7 @@ public class DomainName {
     public static final String IP = UserData.getIP();
     public static final int PORT = 9000;
 
-    private static final String ROOT_URL = "http://" + IP + "/Lock/";
+    private static final String ROOT_URL = "http://" + IP + "/LockBackend/";
 
     public static final String SIGNUP = ROOT_URL + "signup.php";
     public static final String SIGNIN = ROOT_URL + "signin.php";
